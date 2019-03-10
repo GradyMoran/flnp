@@ -9,7 +9,9 @@ cd in and run pip3 install -r requirements.txt
 
 Configure:
 Edit config.py to set the language, number range to practice, and delay. Acceptable languages can be found by running the following in an interactive python session:
+
 import gtts
+
 gtts.lang.tts_langs()
 
 Number range to practice is fairly self-explanatory.
