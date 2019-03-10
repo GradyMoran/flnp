@@ -12,3 +12,5 @@ TODO:
     Should be able to edit obvious values like language and number range from gui. More complex stuff can be left in the config.
 - Mode where it prints the number written in the language (not numerals) and the user enters the number.
     But maybe this doesn't make sense for some languages? Not sure
+- Use lighter audio library
+    Pygame has a lot of unneeded features. Is there a better choice? Not many libraries can read from a file pointer- it seems most want a real file.
