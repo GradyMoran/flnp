@@ -10,32 +10,44 @@ sys.stdout = None
 import pygame
 sys.stdout = old_stdout
 
-#TODO: read from config
-lang = 'ja' 
-min_num = 0
-max_num = 9999
-delay = 2
+import config as cfg
 
-print("Ctrl+C to quit.")
+if __name__ == "__main__":
+        print("Ctrl+C to quit.")
 
-pygame.mixer.init()
+        pygame.mixer.init()
 
-try:
-        while True:
-                num = random.randint(min_num, max_num)
-                mp3_fp = io.BytesIO()
-                tts = gtts.gTTS(str(num), lang)
-                tts.write_to_fp(mp3_fp)
-                mp3_fp.seek(0)
-                pygame.mixer.music.load(mp3_fp)
-                pygame.mixer.music.play()
-                while pygame.mixer.get_busy():
-                    time.sleep(1)
-                ans = input("Please enter your answer: ")
-                if ans != num:
-                        print("Sorry, the correct answer was " + str(num))
-                else:
-                        print("Correct!")
-                time.sleep(2)
-except KeyboardInterrupt as e:
-        print("Thanks for learning!")
+        correct = 0
+        incorrect = 0
+
+        try:
+                while True:
+                        num = random.randint(cfg.min_num, cfg.max_num)
+                        mp3_fp = io.BytesIO()
+                        try:
+                                tts = gtts.gTTS(str(num), cfg.lang)
+                        except Exception as e:
+                                print("Connection error. Please check internet connection and try again later.")
+                                sys.exit(1)
+
+                        tts.write_to_fp(mp3_fp)
+                        mp3_fp.seek(0)
+                        pygame.mixer.music.load(mp3_fp)
+                        pygame.mixer.music.play()
+                        while pygame.mixer.get_busy():
+                            time.sleep(1)
+                        ans = input("Please enter your answer: ")
+                        try:
+                                if int(ans) != num:
+                                        print("Sorry, the correct answer was " + str(num))
+                                        incorrect += 1
+                                else:
+                                        print("Correct!")
+                                        correct += 1
+                        except ValueError as e:
+                                print("Sorry, the correct answer was " + str(num))
+                                incorrect += 1
+
+                        time.sleep(cfg.delay)
+        except KeyboardInterrupt as e2:
+                print("Thanks for learning!\nCorrect: " + str(correct) + "\nIncorrect: " + str(incorrect))
