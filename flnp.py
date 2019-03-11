@@ -25,7 +25,7 @@ if __name__ == "__main__":
                         num = random.randint(cfg.min_num, cfg.max_num)
                         mp3_fp = io.BytesIO()
                         try:
-                                tts = gtts.gTTS(str(num), cfg.lang)
+                                tts = gtts.gTTS(str(num), cfg.lang, cfg.slow)
                         except Exception as e:
                                 print("Connection error. Please check internet connection and try again later.")
                                 sys.exit(1)
